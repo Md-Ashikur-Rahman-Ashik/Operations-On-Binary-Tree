@@ -1,18 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Node{
-    public:
-        int integerValue;
-        Node *leftPointer;
-        Node *rightPointer;
+class Node
+{
+public:
+    int integerValue;
+    Node *leftPointer;
+    Node *rightPointer;
 
-        Node(int integerValue){
-            this->integerValue = integerValue;
-            this->leftPointer = NULL;
-            this->rightPointer = NULL;
-        }
+    Node(int integerValue)
+    {
+        this->integerValue = integerValue;
+        this->leftPointer = NULL;
+        this->rightPointer = NULL;
+    }
 };
+
+void levelOrder(Node *root)
+{
+    queue<Node *> nodeQueue;
+    nodeQueue.push(root);
+    while (!nodeQueue.empty())
+    {
+        Node *frontNode = nodeQueue.front();
+        nodeQueue.pop();
+
+        cout << frontNode->integerValue << " ";
+        if (frontNode->leftPointer != NULL)
+        {
+            nodeQueue.push(frontNode->leftPointer);
+
+            if (frontNode->rightPointer != NULL)
+            {
+                nodeQueue.push(frontNode->rightPointer);
+            }
+        }
+        else if (frontNode->rightPointer != NULL)
+        {
+            nodeQueue.push(frontNode->rightPointer);
+        }
+    }
+}
 
 int main()
 {
@@ -27,6 +55,9 @@ int main()
     leftOfRoot->leftPointer = leftOfTwenty;
     root->rightPointer = rightOfRoot;
     rightOfRoot->leftPointer = leftOfThirty;
+    rightOfRoot->rightPointer = rightOfThirty;
+
+    levelOrder(root);
 
     return 0;
 }
